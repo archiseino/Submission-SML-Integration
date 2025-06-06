@@ -28,18 +28,17 @@ best_params = None
 best_model = None
 
 for params in param_grid:
-    with mlflow.start_run(nested=True):  # Optional: use nested runs
-        model = RandomForestRegressor(**params, random_state=42)
-        model.fit(X_train, y_train)
+    model = RandomForestRegressor(**params, random_state=42)
+    model.fit(X_train, y_train)
 
-        predictions = model.predict(X_test)
-        mae = mean_absolute_error(y_test, predictions)
+    predictions = model.predict(X_test)
+    mae = mean_absolute_error(y_test, predictions)
 
-        # Track best
-        if mae < best_score:
-            best_score = mae
-            best_params = params
-            best_model = model  # Save best model object
+    # Track best
+    if mae < best_score:
+        best_score = mae
+        best_params = params
+        best_model = model  # Save best model object
 
 # 🔁 Log the best result in a final separate MLflow run
 with mlflow.start_run(run_name="best_model_summary"):
