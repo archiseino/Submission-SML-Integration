@@ -47,6 +47,12 @@ if __name__ == "__main__":
         mse = mean_squared_error(y_test, predictions)
         r2 = r2_score(y_test, predictions)
 
+        ## Save the best model
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="model",
+        )
+
         # Log metrics
         mlflow.log_metric("val_mean_absolute_error", mae)
         mlflow.log_metric("val_mean_squared_error", mse)
