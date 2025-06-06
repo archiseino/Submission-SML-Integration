@@ -30,6 +30,11 @@ jobs:
         run: |
           mlflow run MLProject --env-manager=local
 
+      - name: List files before upload
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -R
+
       - name: Upload MLruns as artifact
         uses: actions/upload-artifact@v4
         with:
@@ -46,7 +51,7 @@ jobs:
         run: |
           mlflow models build-docker \
             --model-uri "runs:/$RUN_ID" \
-            --image-name "house-price-prediction:latest"
+            --name "house-price-prediction:latest"
 
       - name: Log in into Docker Hub
         uses: docker/login-action@v2
